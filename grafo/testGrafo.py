@@ -40,12 +40,17 @@ class Test_grafo(TestCase):
         grados = g.obten_orden_topologico(lambda v:print(v))
         self.assertEqual(sum(x for x in grados.values()), 0)
 
-    def test_dijkstra(self):
+    def test_dijkstra_con_1_arista(self):
         self.g.agregar_aristas_ponderadas(('a','b',4))
         self.assertTrue(self.g.existe_vertice('a'))
         self.assertTrue(Vertice('a') in self.g._vertices.keys())
-        print(self.g.obten_dijkstra(Vertice('a')))
-
+        costos, origenes = self.g.obten_dijkstra(Vertice('a'))
+        accion = lambda n:n is not None
+        for v, w in origenes.items():
+            print(f"{v._id} {"<-" + w._id if accion(w) else ""} = {costos[v]}")
+    def test_dijstra(self):
+        self.g.agregar_aristas(('a','b',5),('a','c',3),('b','c',2),('b','e',3),('b','g',1),('c','d',7),('c','e',7),('d','f',6),('e','d',2),('e','f',1),('g','f',1))
+        
 
 if __name__ == '__main__':
     main()

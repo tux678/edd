@@ -114,7 +114,7 @@ class Grafo:
 
         return grados
     
-    def obten_dijkstra(self, s:Vertice):
+    def obten_dijkstra(self, s:Vertice) ->tuple[dict[Vertice, int |float],dict[Vertice,Vertice|None]]:
         inicio = self._vertices[s]
         origen:dict[Vertice, Vertice] = {}
         distancias:dict[Vertice, int | float] = {}
@@ -130,7 +130,7 @@ class Grafo:
         while not pq.esta_vacio():
             distancia, v = pq.extraer()
             visitados.add(v)
-            adyacentes = self._vertices[v]
+            adyacentes = self._vertices[v]._aristas
             for w, peso in adyacentes:
                 if w not in visitados:
                     if (distancia+peso) < distancias[w]:
@@ -139,23 +139,9 @@ class Grafo:
                         pq.encolar((distancia+peso, w))
         
         return distancias, origen
-
-
-if __name__ == "__main__":
-
-    class Persona:
-        def __init__(self, nombre, telefono):
-            self._nombre = nombre
-            self._telefono = telefono
-
-        def __hash__(self):
-            return hash(self._nombre)
-        
-        def __eq__(self, value):
-            if not isinstance(value, Persona):
-                return False
-            return self._nombre.__eq__(value._nombre)
-
-
-
-    print(Arista(Vertice(Persona('Agus','9059')), Vertice(Persona('Mati','645' ))) == Arista(Vertice(Persona('Agus','842')), Vertice(Persona('Mate', '5603'))))
+    
+    def imprimir_dijkstra(dijstra:Callable[[Vertice],tuple[dict[Vertice, int |float],dict[Vertice,Vertice|None]]]):
+        def imprimir(inicio:Vertice):
+            costos, origen = dijstra(inicio)
+            destinos = {o:d for d,o in origen.items() }
+            
