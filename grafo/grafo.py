@@ -140,19 +140,21 @@ class Grafo:
         
         return distancias, origen
     
-    def imprimir_dijkstra(dijstra:Callable[[Vertice],tuple[dict[Vertice, int |float],dict[Vertice,Vertice|None]]]):
-        def imprimir(inicio:Vertice):
-            costos, origenes = dijstra(inicio)
+    def imprimir_dijkstra(dijkstra:Callable[[Vertice],tuple[dict[Vertice, int |float],dict[Vertice,Vertice|None]]]):
+        def imprimir(self, inicio:Vertice):
+            costos, origenes = dijkstra(self, inicio)
             del origenes[inicio]
             destinos = {o:d for d,o in origenes.items() }
             def recorrer(i:Vertice, recorrido:list):
-                if origen := destinos.get(i,i) != i:
-                    recorrido.append((origen, costos[origen]))
+                if (origen := destinos.get(i,i)) != i:
+                    recorrido.append((str(origen), costos[origen]))
                     recorrer(origen, recorrido)
-            recorrer(inicio,camino=[])
+            camino=[]
+            recorrer(inicio,camino)
             print(camino)
+        return imprimir
 
     @imprimir_dijkstra
-    def _obten_dijkstra(self, s:Vertice):
-        return self.obten_dijkstra
+    def _obten_dijkstra(self, i:Vertice):
+        return self.obten_dijkstra(i)
             

@@ -49,8 +49,12 @@ class Test_grafo(TestCase):
         for v, w in origenes.items():
             print(f"{v._id} {"<-" + w._id if accion(w) else ""} = {costos[v]}")
     def test_dijstra(self):
-        self.g.agregar_aristas(('a','b',5),('a','c',3),('b','c',2),('b','e',3),('b','g',1),('c','d',7),('c','e',7),('d','f',6),('e','d',2),('e','f',1),('g','f',1))
-        
+        self.g.agregar_aristas_ponderadas(('a','b',5),('a','c',3),('b','c',2),('b','e',3),('b','g',1),('c','d',7),('c','e',7),('d','f',6),('e','d',2),('e','f',1),('g','f',1))
+        costos, origen = self.g.obten_dijkstra(Vertice('a'))
+        del origen[Vertice('a')]
+        print("------------------")
+        for v in origen.keys():
+            print(f"{str(origen[v])} -> {str(v)} : {costos[v]}")
 
 if __name__ == '__main__':
     main()
