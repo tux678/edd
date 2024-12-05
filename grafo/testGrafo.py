@@ -55,6 +55,8 @@ class Test_grafo(TestCase):
         print("------------------")
         for v in origen.keys():
             print(f"{str(origen[v])} -> {str(v)} : {costos[v]}")
+        print("------------------")
+        self.g._obten_dijkstra(Vertice('a'))
 
 if __name__ == '__main__':
     main()

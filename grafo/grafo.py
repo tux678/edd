@@ -144,14 +144,12 @@ class Grafo:
         def imprimir(self, inicio:Vertice):
             costos, origenes = dijkstra(self, inicio)
             del origenes[inicio]
-            destinos = {o:d for d,o in origenes.items() }
-            def recorrer(i:Vertice, recorrido:list):
-                if (origen := destinos.get(i,i)) != i:
-                    recorrido.append((str(origen), costos[origen]))
-                    recorrer(origen, recorrido)
-            camino=[]
-            recorrer(inicio,camino)
-            print(camino)
+            caminos = []
+            for v, o in origenes.items():
+                caminos.append(o)
+                while (padre := origenes[o]) != inicio:
+                    caminos.append(str(padre))
+                print(caminos)
         return imprimir
 
     @imprimir_dijkstra
