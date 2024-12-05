@@ -47,7 +47,7 @@ class Test_grafo(TestCase):
         costos, origenes = self.g.obten_dijkstra(Vertice('a'))
         accion = lambda n:n is not None
         for v, w in origenes.items():
-            print(f"{v._id} {"<-" + w._id if accion(w) else ""} = {costos[v]}")
+            print(f"{v._id} - { w._id if accion(w) else ''} = {costos[v]}")
     def test_dijstra(self):
         self.g.agregar_aristas_ponderadas(('a','b',5),('a','c',3),('b','c',2),('b','e',3),('b','g',1),('c','d',7),('c','e',7),('d','f',6),('e','d',2),('e','f',1),('g','f',1))
         costos, origen = self.g.obten_dijkstra(Vertice('a'))

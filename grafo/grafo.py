@@ -143,11 +143,10 @@ class Grafo:
     def imprimir_dijkstra(dijkstra:Callable[[Vertice],tuple[dict[Vertice, int |float],dict[Vertice,Vertice|None]]]):
         def imprimir(self, inicio:Vertice):
             costos, origenes = dijkstra(self, inicio)
-            del origenes[inicio]
             caminos = []
             for v, o in origenes.items():
                 caminos.append(o)
-                while (padre := origenes[o]) != inicio:
+                while (padre := origenes[o]) is not None:
                     caminos.append(str(padre))
                 print(caminos)
         return imprimir
