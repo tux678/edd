@@ -87,9 +87,6 @@ class Grafo:
         for v, w in aristas:
             self.agregar_arista(Arista(Vertice(v),Vertice(w)))
 
-    def agregar_aristas_ponderadas(self, *aristas):
-        for v, w, p in aristas:
-            self.agregar_arista(Arista(Vertice(v),Vertice(w), p))
 
     def obten_grado(self):
         return len(self._vertices)
@@ -140,19 +137,33 @@ class Grafo:
         
         return distancias, origen
     
-    def imprimir_dijkstra(dijkstra:Callable[[Vertice],tuple[dict[Vertice, int |float],dict[Vertice,Vertice|None]]]):
+    def deco_dijkstra(dijkstra:Callable[[Vertice],tuple[dict[Vertice, int |float],dict[Vertice,Vertice|None]]]):
         def imprimir(self, inicio:Vertice):
             costos, origenes = dijkstra(self, inicio)
-            del origenes[inicio]
             caminos = []
             for v, o in origenes.items():
-                caminos.append(o)
-                while (padre := origenes[o]) != inicio:
-                    caminos.append(str(padre))
-                print(caminos)
-        return imprimir
+                grupo = []
+                caminos.append(grupo)
+                grupo.append(str(v))
+                padre = o
+                while padre is not None:
+                    grupo.append(str(padre))
+                    padre = origenes[padre]
 
-    @imprimir_dijkstra
+            return caminos, {str(nodo):peso for nodo, peso in costos.items()}
+        return imprimir
+    
+    def imprimir_dijkstra():
+        recorridos, ponderacion = self.gp._obten_dijkstra(Vertice('a'))
+        for caminos in recorridos:
+            print(f"{caminos}:{ponderacion[caminos[0]]}\n")
+
+    @deco_dijkstra
     def _obten_dijkstra(self, i:Vertice):
         return self.obten_dijkstra(i)
             
+class Grafo_ponderado(Grafo):
+
+    def agregar_aristas(self, *aristas):
+        for v, w, p in aristas:
+            self.agregar_arista(Arista(Vertice(v),Vertice(w), p))
