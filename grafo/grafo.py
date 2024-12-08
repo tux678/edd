@@ -137,7 +137,7 @@ class Grafo:
         
         return distancias, origen
     
-    def deco_dijkstra(dijkstra:Callable[[Vertice],tuple[dict[Vertice, int |float],dict[Vertice,Vertice|None]]]):
+    def deco_dijkstra( dijkstra:Callable[[Vertice],tuple[dict[Vertice, int |float],dict[Vertice,Vertice|None]]]):
         def imprimir(self, inicio:Vertice):
             costos, origenes = dijkstra(self, inicio)
             caminos = []
@@ -153,12 +153,12 @@ class Grafo:
             return caminos, {str(nodo):peso for nodo, peso in costos.items()}
         return imprimir
     
-    def imprimir_dijkstra():
-        recorridos, ponderacion = self.gp._obten_dijkstra(Vertice('a'))
+    def imprimir_dijkstra(self, vertice:any):
+        recorridos, ponderacion = self._obten_dijkstra(Vertice(vertice))
         for caminos in recorridos:
             print(f"{caminos}:{ponderacion[caminos[0]]}\n")
 
-    @deco_dijkstra
+    @deco_dijkstra()
     def _obten_dijkstra(self, i:Vertice):
         return self.obten_dijkstra(i)
             

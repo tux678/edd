@@ -51,7 +51,7 @@ class Test_grafo(TestCase):
         accion = lambda n:n is not None
         for v, w in origenes.items():
             print(f"{v._id} - { w._id if accion(w) else ''} = {costos[v]}")
-    def test_dijstra(self):
+    def test_dijkstra(self):
         self.gp = Grafo_ponderado()
         self.gp.agregar_aristas(('a','b',5),('a','c',3),('b','c',2),('b','e',3),('b','g',1),('c','d',7),('c','e',7),('d','f',6),('e','d',2),('e','f',1),('g','f',1))
         costos, origen = self.gp.obten_dijkstra(Vertice('a'))
@@ -60,9 +60,10 @@ class Test_grafo(TestCase):
         for v in origen.keys():
             print(f"{str(origen[v])} -> {str(v)} : {costos[v]}")
         print("------------------")
-        recorridos, ponderacion = self.gp._obten_dijkstra(Vertice('a'))
-        for caminos in recorridos:
-            print(f"{caminos}:{ponderacion[caminos[0]]}\n")
+    def test_deco_dijkstra(self):
+        self.gp = Grafo_ponderado()
+        self.gp.agregar_aristas(('a','b',5),('a','c',3),('b','c',2),('b','e',3),('b','g',1),('c','d',7),('c','e',7),('d','f',6),('e','d',2),('e','f',1),('g','f',1))
+        self.gp.imprimir_dijkstra('a')
 
 if __name__ == '__main__':
     main()
